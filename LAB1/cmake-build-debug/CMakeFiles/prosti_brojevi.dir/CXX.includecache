@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB1/prosti_brojevi.cpp
+iostream
+-
+csignal
+-
+cstdio
+-
+sys/time.h
+-
+cmath
+-
+zconf.h
+-
+algorithm
+-
+

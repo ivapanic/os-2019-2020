@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB1/generator_prekida.cpp
+csignal
+-
+cstdio
+-
+iostream
+-
+zconf.h
+-
+cstdlib
+-
+stdio.h
+-
+signal.h
+-
+stdlib.h
+-
+
