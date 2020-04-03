@@ -1,0 +1,5 @@
+/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB2/cmake-build-debug/CMakeFiles/Lamport.dir
+/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB2/cmake-build-debug/CMakeFiles/dretve.dir
+/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB2/cmake-build-debug/CMakeFiles/procesi.dir

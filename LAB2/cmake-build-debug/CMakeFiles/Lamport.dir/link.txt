@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Lamport.dir/Lamport.cpp.o  -o Lamport 

@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB2/Lamport.cpp
+cstdio
+-
+cstdlib
+-
+sys/types.h
+-
+sys/wait.h
+-
+sys/ipc.h
+-
+sys/shm.h
+-
+unistd.h
+-
+algorithm
+-
+vector
+-
+iostream
+-
+

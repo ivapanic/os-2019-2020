@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB2/procesi.cpp
+iostream
+-
+cstdlib
+-
+unistd.h
+-
+pthread.h
+-
+sys/wait.h
+-
+
