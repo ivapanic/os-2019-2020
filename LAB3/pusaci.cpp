@@ -44,15 +44,15 @@ void choose_ingredients()
 void dealer()
 {
     do {
-        sleep(2);
+        sleep(2); //beautifying output
 
         sem_wait(empty_table);
-        sem_wait(KO);
+        sem_wait(KO); //enter KO
 
         choose_ingredients();
         output(0);
 
-        sem_post(KO);
+        sem_post(KO); //KO over
         sem_post(p1);
         sem_post(p2);
         sem_post(p3);
@@ -85,19 +85,19 @@ void smoker(int num)
 {
     do
     {
-        sleep(2);
+        sleep(2); //beautifying output
         wait_for_smoker(num);
-        sem_wait(KO);
+        sem_wait(KO); //enter KO
 
         if (*t1 != num  && *t2 != num)
         {
             output(num);
-            sleep(2);
-            sem_post(KO);
+            sleep(2); //beautifying output
+            sem_post(KO); //KO over
             sem_post(empty_table);
         }
         else
-            sem_post(KO);
+            sem_post(KO); //KO over
 
     } while(!signal_flag);
 }
