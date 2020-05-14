@@ -21,6 +21,7 @@ static int  thread_details[THREADS][DETAILS] =
 
 static int quant = 1;
 
+
 class Thread
 {
 public:
@@ -30,6 +31,7 @@ public:
     int time_left;
     int priority;
 
+
     explicit Thread(int t_i) : i(t_i)
     {
         coming_time = thread_details[i][0];
@@ -37,7 +39,6 @@ public:
         time_left = thread_details[i][2];
         priority = thread_details[i][3];
     }
-
 };
 
 
@@ -68,14 +69,12 @@ void output()
        header = false;
    }
 
-
     printf("%3d ", current_time);
 
     for(auto &ready_thread : ready_threads)
     {
         Thread *thread = &ready_thread;
         printf("  %d/%d/%d ", thread->id, thread->priority, thread->time_left);
-
     }
 
     if (ready_threads.size() < MAX_WAITING_THREADS)
@@ -117,19 +116,20 @@ void RR()
             }
             else
             {
-                if (waiting_threads.empty()) //provjeri jel red cekanja prazan
+                if (ready_threads.size() <= MAX_WAITING_THREADS) //provjeri jel u redu pripravnih ima jos mjesta
                 {
                     ready_threads.begin()->time_left -= quant;
                     ready_threads.push_back(ready_threads.at(0));
                     ready_threads.pop_front();
-                }
-                else //ako nije prazan, stavi prvu dretvu iz reda cekanja u red pripravnih
-                {
-                    ready_threads.push_back(waiting_threads.at(0));
-                    waiting_threads.pop_front();
-                    printf("%3d -- nova dretva id=%d, p=%d, prio=%d\n", current_time, ready_threads.at(0).id,
-                           ready_threads.at(0).time_left, ready_threads.at(0).priority);
-                    filled++;
+
+                    if (!waiting_threads.empty() && ready_threads.size() < MAX_WAITING_THREADS) //ima li mjesta za dretve koje cekaju
+                    {
+                        ready_threads.push_back(waiting_threads.at(0));
+                        printf("%3d -- nova dretva id=%d, p=%d, prio=%d\n", current_time, waiting_threads.at(0).id,
+                               waiting_threads.at(0).time_left, waiting_threads.at(0).priority);
+                        waiting_threads.pop_front();
+                        filled++;
+                    }
                 }
             }
         }
@@ -148,16 +148,13 @@ void RR()
                 else
                     waiting_threads.push_back(thread);
             }
-
         }
 
         output();
 
-        //sleep(1);
+        sleep(1);
         current_time++;
     }
-
-
 }
 
 
@@ -165,5 +162,4 @@ int main()
 {
     init();
     RR();
-
 }
