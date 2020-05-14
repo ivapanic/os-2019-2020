@@ -2,9 +2,11 @@
 #include <zconf.h>
 #include <deque>
 
-#define THREADS 6
-#define MAX_WAITING_THREADS 5 //red pripravnih dretvi
-#define DETAILS 4
+
+constexpr int THREADS = 6;
+constexpr int MAX_WAITING_THREADS = 5;
+constexpr int DETAILS = 4;
+
 
 static bool header = true;
 static int current_time = 0;
@@ -14,7 +16,7 @@ static int  thread_details[THREADS][DETAILS] =
             {7, 2, 3, 5},
             {12, 1, 5, 3},
             {20, 6, 3, 6},
-            {20, 7, 4, 7}
+            {20, 7, 4, 7},
         };
 
 static int quant = 1;
@@ -39,8 +41,8 @@ public:
 };
 
 
-static std::deque<Thread> ready_threads;
-static std::deque<Thread> all_threads;
+static std::deque<Thread> ready_threads;    //red pripravnih
+static std::deque<Thread> all_threads;      //zadane dretve
 
 
 void init()
@@ -93,21 +95,19 @@ void output()
 
 void RR()
 {
-    int to_be_finished_threads = THREADS;
-    int seen_threads = 0;
-    int filled = 0;
+    int to_be_finished_threads = THREADS; //broj preostalih dretvi
+    int filled = 0; //popunjena mjesta u redu pripravnih dretvi
 
-    std::deque<Thread> waiting_threads;
-
+    std::deque<Thread> waiting_threads; //dretve koje ne stanu u red pripravnih dretvi
 
     while (to_be_finished_threads > 0)
     {
 
         if (!ready_threads.empty())
         {
-            if (ready_threads.begin()->time_left == 0)
+            if (ready_threads.begin()->time_left == 0) //ako dretva dosla na red i zavrsava
             {
-                printf("  %d -- zavrsava dretva id=%d, p=%d, prio=%d\n", current_time,
+                printf("%3d -- zavrsava dretva id=%d, p=%d, prio=%d\n", current_time,
                        ready_threads.at(0).id, ready_threads.at(0).time_left, ready_threads.at(0).priority);
 
                 ready_threads.pop_front();
@@ -115,64 +115,44 @@ void RR()
                 to_be_finished_threads--;
                 filled--;
             }
-
             else
             {
-                if (ready_threads.size() == MAX_WAITING_THREADS)
+                if (waiting_threads.empty()) //provjeri jel red cekanja prazan
                 {
-                    ready_threads.push_front(ready_threads.back());
-                    ready_threads.pop_back();
                     ready_threads.begin()->time_left -= quant;
+                    ready_threads.push_back(ready_threads.at(0));
+                    ready_threads.pop_front();
                 }
-
-                else
+                else //ako nije prazan, stavi prvu dretvu iz reda cekanja u red pripravnih
                 {
-                    if(!waiting_threads.empty())
-                    {
-                        ready_threads.push_front(waiting_threads.at(0));
-                        printf("%3d -- nova dretva id=%d, p=%d, prio=%d\n", current_time, ready_threads.at(0).id,
-                               ready_threads.at(0).time_left, ready_threads.at(0).priority);
-                        waiting_threads.pop_front();
-                    }
-                    else
-                    {
-                        if (seen_threads == THREADS - 1)
-                        {
-                            ready_threads.push_front(ready_threads.back());
-                            ready_threads.pop_back();
-                            ready_threads.begin()->time_left -= quant;
-                        }
-                    }
+                    ready_threads.push_back(waiting_threads.at(0));
+                    waiting_threads.pop_front();
+                    printf("%3d -- nova dretva id=%d, p=%d, prio=%d\n", current_time, ready_threads.at(0).id,
+                           ready_threads.at(0).time_left, ready_threads.at(0).priority);
+                    filled++;
                 }
             }
         }
 
-        for (auto &thread : all_threads)
+        for (Thread &thread : all_threads)
         {
-            if (thread.coming_time == current_time)
+            if (thread.coming_time == current_time) //dretva pocinje s radom
             {
-                if (ready_threads.size() < MAX_WAITING_THREADS)
+                if (ready_threads.size() < MAX_WAITING_THREADS) //ako jos ima mjesta u redu pripravnih
                 {
-                    ready_threads.push_front(thread);
+                    ready_threads.push_back(thread);
                     printf("%3d -- nova dretva id=%d, p=%d, prio=%d\n", current_time, thread.id,
                            thread.time_left, thread.priority);
-                    output();
                     filled++;
-                    seen_threads++;
-                    ready_threads.begin()->time_left -= quant;
                 }
-
                 else
-                {
-
                     waiting_threads.push_back(thread);
-                }
-
             }
 
         }
 
         output();
+
         //sleep(1);
         current_time++;
     }
