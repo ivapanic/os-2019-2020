@@ -94,11 +94,9 @@ void output()
 }
 
 
-void PRIORITY()
+void check_ending()
 {
-    ready_threads.begin()->time_left -= 1;
-
-    if (ready_threads.begin()->time_left == 0) //ako dretva dosla na red i zavrsava
+    if (ready_threads.begin()->time_left == 0) //ako dretva zavrsava
     {
         printf("%3d -- zavrsava dretva id=%d, p=%d, prio=%d\n", current_time,
                ready_threads.at(0).id, ready_threads.at(0).time_left, ready_threads.at(0).priority);
@@ -108,62 +106,59 @@ void PRIORITY()
         to_be_finished_threads--;
         filled--;
     }
+}
+
+
+void PRIORITY()
+{
+    ready_threads.begin()->time_left -= 1;
+    check_ending();
+
 }
 
 
 void FIFO()
 {
     ready_threads.begin()->time_left -= 1;
-
-    if (ready_threads.begin()->time_left == 0) //ako dretva dosla na red i zavrsava
-    {
-        printf("%3d -- zavrsava dretva id=%d, p=%d, prio=%d\n", current_time,
-               ready_threads.at(0).id, ready_threads.at(0).time_left, ready_threads.at(0).priority);
-
-        ready_threads.pop_front();
-
-        to_be_finished_threads--;
-        filled--;
-    }
+    check_ending();
 }
 
 
 void RR()
 {
-    if (!ready_threads.empty()) {
-        if (ready_threads.begin()->time_left == 0) //ako dretva dosla na red i zavrsava
-        {
-            printf("%3d -- zavrsava dretva id=%d, p=%d, prio=%d\n", current_time,
-                   ready_threads.at(0).id, ready_threads.at(0).time_left, ready_threads.at(0).priority);
+    if (!ready_threads.empty())
+    {
 
+        if (ready_threads.size() <= MAX_WAITING_THREADS) //provjeri jel u redu pripravnih ima jos mjesta
+         {
+            ready_threads.begin()->time_left -= quant;
+            ready_threads.push_back(ready_threads.at(0));
             ready_threads.pop_front();
+         }
 
-            to_be_finished_threads--;
-            filled--;
-        }
-        else
-        {
-            if (ready_threads.size() <= MAX_WAITING_THREADS) //provjeri jel u redu pripravnih ima jos mjesta
-            {
-                ready_threads.begin()->time_left -= quant;
-                ready_threads.push_back(ready_threads.at(0));
-                ready_threads.pop_front();
-
-            }
-        }
+        check_ending();
     }
+}
+
+
+void add_new_thread(Thread &thread)
+{
+    ready_threads.push_back(thread);
+    printf("%3d -- nova dretva id=%d, p=%d, prio=%d, %s\n", current_time, thread.id,
+           thread.time_left, thread.priority, thread.scheduling == 1 ? "PRIO+FIFO" : "PRIO+RR");
+    filled++;
 }
 
 
 void schedule()
 {
 
+    output();
 
     std::deque<Thread> waiting_threads; //dretve koje ne stanu u red pripravnih dretvi
 
     while(to_be_finished_threads > 0)
     {
-        output();
 
         for (Thread &thread : all_threads)
         {
@@ -171,19 +166,12 @@ void schedule()
             {
                 if (ready_threads.size() < MAX_WAITING_THREADS) //ako jos ima mjesta u redu pripravnih
                 {
-                    ready_threads.push_back(thread);
-                    printf("%3d -- nova dretva id=%d, p=%d, prio=%d, %s\n", current_time, thread.id,
-                           thread.time_left, thread.priority, thread.scheduling == 1 ? "PRIO+FIFO" : "PRIO+RR");
-                    filled++;
+                   add_new_thread(thread);
 
                     if(! waiting_threads.empty())
                     {
-                        ready_threads.push_back(waiting_threads.at(0));
-                        printf("%3d -- nova dretva id=%d, p=%d, prio=%d, %s\n", current_time, waiting_threads.at(0).id,
-                               waiting_threads.at(0).time_left, waiting_threads.at(0).priority,
-                               thread.scheduling == 1 ? "PRIO+FIFO" : "PRIO+RR");
+                        add_new_thread(waiting_threads.at(0));
                         waiting_threads.pop_front();
-                        filled++;
                     }
                 }
                 else
@@ -193,16 +181,17 @@ void schedule()
 
         if (!ready_threads.empty())
         {
+            std::sort(ready_threads.begin(), ready_threads.end(), [](const auto& a, const auto& b)
+                        { return a.priority > b.priority; });
 
             output();
 
             if (ready_threads.size() > 1 && (ready_threads.at(0).priority == ready_threads.at(1).priority))
             {   //provjeri na koji nacin je zadano rasporedivanje dretvi ako ima vise jednakih prioriteta
-                ready_threads.at(0).scheduling == 1 ? FIFO() : RR();
+                ready_threads.at(1).scheduling == 1 ? FIFO() : RR();
             }
             else
             {
-
                 PRIORITY();
             }
         }
