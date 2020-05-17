@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/visekriterijsko.dir/visekriterijsko.cpp.o  -o visekriterijsko 

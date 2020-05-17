@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/simulacija.dir/simulacija.cpp.o  -o simulacija 

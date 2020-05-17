@@ -1,4 +1,0 @@
-/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB4/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB4/cmake-build-debug/CMakeFiles/simulacija.dir
-/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB4/cmake-build-debug/CMakeFiles/visekriterijsko.dir
