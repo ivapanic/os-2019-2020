@@ -1,4 +1,0 @@
-/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB3/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB3/cmake-build-debug/CMakeFiles/pusaci.dir
-/home/iva/Desktop/FER/6.semestar/OS/Labosi/LAB3/cmake-build-debug/CMakeFiles/partibrejker.dir
