@@ -1,0 +1,34 @@
+Partibrejker
+Zadatak
+
+U nekom sustavu postoje dva tipa dretvi: N dretvi tipa student i jedna dretva tipa partibrejker. Studenti se okupljaju u nekoj sobi za zabavu u kojoj može biti proizvoljan broj studenata. Partibrejker može ući u sobu za zabavu samo ako je u sobi 3 ili više studenata. Kada je partibrejker u sobi, ni jedan od studenata više ne može (ni ne želi) ući u sobu, a studenti koji su u sobi mogu izaći. Partibrejker može izaći iz sobe tek kada svi studenti izađu. Broj N > 3  se zadaje na početku izvođenja programa. Zadatak je ispravno sinkronizirati studente i partibrejkera.
+
+Sve što u zadatku nije zadano, riješiti na proizvoljan način.
+
+Dretva student(K)
+{
+   spavaj X milisekundi; // X je slučajan broj između 100 i 500
+   ponavljaj 3 puta {
+      uđi u sobu za zabavu ako u sobi nema partibrejkera;
+      ispiši "Student K je ušao u sobu";
+      zabavi se; // spavaj X milisekundi gdje je X slučajan broj između 1000 i 2000
+      izađi iz sobe za zabavu;
+      ispiši "Student K je izašao iz sobe";
+      odspavaj X milisekundi; // X je slučajan broj između 1000 i 2000
+   }
+}
+
+
+
+Dretva partibrejker()
+{
+   dok ima studenata u sustavu {
+      spavaj X milisekundi; // X je slučajan broj između 100 i 1000
+      uđi u sobu za zabavu ako su u sobi 3 ili više studenata;
+      ispiši "Partibrejker je ušao u sobu";
+      izađi iz sobe ako u sobi nema više studenata;
+      ispiši "Partibrejker je izašao iz sobe";
+   }
+}
+
+"Spavanje" u milisekundama može se postići funkcijom usleep(ms*1000) koja odgađa izvođenje programa za zadani broj mikrosekundi. 
