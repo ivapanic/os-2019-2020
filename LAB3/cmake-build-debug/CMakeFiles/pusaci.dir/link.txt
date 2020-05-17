@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/pusaci.dir/pusaci.cpp.o  -o pusaci 
