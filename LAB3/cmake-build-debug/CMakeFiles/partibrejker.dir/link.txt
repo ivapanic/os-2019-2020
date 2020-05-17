@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/partibrejker.dir/partibrejker.cpp.o  -o partibrejker -pthread 
