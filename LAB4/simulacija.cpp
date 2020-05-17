@@ -91,11 +91,11 @@ void output()
 }
 
 
-
 void RR()
 {
     int to_be_finished_threads = THREADS; //broj preostalih dretvi
     int filled = 0; //popunjena mjesta u redu pripravnih dretvi
+    output();
 
     std::deque<Thread> waiting_threads; //dretve koje ne stanu u red pripravnih dretvi
 
@@ -104,6 +104,8 @@ void RR()
 
         if (!ready_threads.empty())
         {
+            output();
+
             if (ready_threads.begin()->time_left == 0) //ako dretva dosla na red i zavrsava
             {
                 printf("%3d -- zavrsava dretva id=%d, p=%d, prio=%d\n", current_time,
@@ -150,9 +152,8 @@ void RR()
             }
         }
 
-        output();
 
-        sleep(1);
+        //sleep(1);
         current_time++;
     }
 }
